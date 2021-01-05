@@ -1,0 +1,41 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+    <h1>Profile</h1>
+
+    <div class="container">
+        <div class="card m-4" style="width: 25rem;">
+            <div class="card-body">
+                <h3>Name: {{user.username}}</h3>
+                <h3>Email: {{user.email}}</h3>
+                <h3>First Name: {{user.first_name}}</h3>
+                <h3>Last Name: {{user.last_name}}</h3>
+                <form  action="/users/{{user.id}}/delete" method="POST">
+                    <button class="btn btn-sm btn-danger">Delete Account</button>
+                </form>
+                <a class="btn btn-sm btn-success m-1" href="/users/{{user.username}}/add">Add Feedback</a>
+            </div>
+        </div>
+
+        {% for feed in user.feedback %}
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text"><b>{{feed.title}}</b></p>
+                    <p class="card-text">{{feed.content}}</p>
+                    {% if feed.user.id == session['user_id'] %}
+                    <div class="container d-flex flex-row-reverse">
+                        <a class="btn btn-sm btn-success m-1 "href="/feedback/{{feed.id}}/update ">Edit</a>
+                        <form action="/feedback/{{feed.id}}/delete" method="POST">
+                            <button class="btn btn-sm btn-danger m-1">Delete</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+            
+    </div>
+   
+{% endblock %}
